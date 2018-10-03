@@ -1,8 +1,11 @@
-const DEFAULT_DICT = {
-  'sin(' : { addBefore : 'Math.' },
-  'cos(' : { addBefore : 'Math.' },
+const DEFAULT_DICT = [
+  { value: 'sin(', addBefore : 'Math.' },
+  { value: 'cos(', addBefore : 'Math.' },
+  { value: 'tan(', addBefore : 'Math.' },
+];
 
-
+function replaceAll(target, search, replacement){
+  return target.split(search).join(replacement);
 }
 
 class FuncDisp{
@@ -10,22 +13,38 @@ class FuncDisp{
     this.c = document.getElementById(canvasId);
     this.input = document.getElementById(inputId);
     this.init();
-    this.dict = {};
+    this.dict = DEFAULT_DICT;
 
   }
 
   get func(){
-    var inputFuncValue = this.getConvertedInputFunc(this.input.value).replace('x', '1');
+    var inputFuncValue = this.getConvertedInputFunc(this.input.value, 1);
     var func =  eval( inputFuncValue );
-    if(func) return this.getConvertedInputFunc(this.input.value);
+    if( func ) return this.getConvertedInputFunc(this.input.value);
     else return 'no input func';
   }
-  getFunc(x){
-    return ;
-  }
+
+
+
   getConvertedInputFunc(func, x){
+    var x = x || false;
+    if( !func ) return false;
+    func += '';
+    for (var i = 0; i < this.dict.length; i++) {
+      var term = this.dict[i];
 
+      if( term.addBefore ) {
+        func = replaceAll( func, term.value, term.addBefore + term.value );
+      }
+    }
 
+    if( x ) func = replaceAll(func, 'x', x);
+
+    return func;
+  }
+
+  getFunc(x){
+    return eval( this.func.replace('x', x) );
   }
 
   init(){
@@ -45,7 +64,8 @@ class FuncDisp{
   drawFunc(){
     console.log(this.func);
     if( this.func == null ) return false;
-
+    var res = this.getFunc(1);
+    console.log(res);
   }
 
 
