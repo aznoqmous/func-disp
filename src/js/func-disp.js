@@ -23,16 +23,34 @@ class FuncDisp{
     this.c = document.getElementById(canvasId);
     this.input = document.getElementById(inputId);
 
+    this.allowedTags = 'x0123456789+-*/() ';
+
+    this.allowDict();
+
     this.init();
 
   }
 
 
   get func(){
+    if(! this.isInputAllowed( this.input.value ) ) return null;
     var inputFuncValue = this.getConvertedInputFunc(this.input.value, 1);
+    if(!eval( inputFuncValue )) return null;
     var func =  eval( inputFuncValue );
     if( func ) return this.getConvertedInputFunc(this.input.value);
     else return null;
+  }
+
+  isInputAllowed(func){
+    var str = func;
+      for (var i = 0; i <= this.allowedTags.length; i++) {
+        var allowed = this.allowedTags[i];
+        str = replaceAll(str, allowed, '');
+        console.log(str);
+      }
+
+      if( ! str.length ) return true;
+      return false;
   }
 
   getConvertedInputFunc(func, x){
@@ -53,7 +71,7 @@ class FuncDisp{
   }
 
   getFunc(x){
-    return eval( this.func.replace('x', x) );
+    return eval( this.currFunc.replace('x', x) );
   }
 
 
@@ -74,13 +92,12 @@ class FuncDisp{
     this.bindEvents();
     this.drawFunc();
   }
-
   bindEvents(){
     var self = this;
     this.input.addEventListener('keyup', function(e){
-      if( e.key == 'Enter' ){
+      // if( e.key == 'Enter' ){
         self.drawFunc();
-      }
+      // }
     });
 
   }
@@ -98,11 +115,9 @@ class FuncDisp{
     return ratioY;
   }
   drawFunc(){
-
-    if( this.func === null ) return false;
+    this.currFunc = this.func;
+    if( this.currFunc === null ) return false;
     this.clearCtx();
-    var res = this.getFunc(1);
-
     for (var cx = 0; cx < this.c.width; cx++) {
 
       var x = this.getX(cx);
@@ -123,13 +138,21 @@ class FuncDisp{
     this.ctx.fillRect( 0, 0, this.c.width, this.c.height );
     this.ctx.globalAlpha = 1;
   }
-
   drawPixel(x, y){
     this.ctx.fillStyle = this.colors.draw;
     this.ctx.fillRect(x, y, 1, 1);
   }
-  //  drawDot(){}
+  //  drawTrace(){}
 
+  allowDict(){
+    var alloweds = this.allowedTags.split('');
+    this.allowedTags = [];
+    for (var i = 0; i < this.dict.length; i++) {
+      var term = this.dict[i];
+      this.allowedTags.push(term.value);
+    }
+    this.allowedTags = this.allowedTags.concat(alloweds);
+  }
 
 
 }
