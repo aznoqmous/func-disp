@@ -1,7 +1,10 @@
 const DEFAULT_DICT = [
-  { value: 'sin(', addBefore : 'Math.' },
-  { value: 'cos(', addBefore : 'Math.' },
-  { value: 'tan(', addBefore : 'Math.' },
+  { value: 'sin(', addBefore: 'Math.' },
+  { value: 'cos(', addBefore: 'Math.' },
+  { value: 'tan(', addBefore: 'Math.' },
+
+  { value: 'pi',  replace: 'PI' },
+  { value: 'PI',  addBefore: 'Math.' },
 ];
 const DEFAULT_COLORS = {
   clear: '#272727',
