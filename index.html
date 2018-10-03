@@ -4,12 +4,48 @@
     <meta charset="utf-8">
     <title></title>
     <script src="src/js/func-disp.js"></script>
+    <style media="screen">
+      *{
+        box-sizing: border-box;
+        padding: 0;
+        margin: 0;
+        font-family: arial;
+      }
+      body{
+        width: 100vw;
+        overflow-x: hidden;
+      }
+      .func-dict{
+        display: flex;
+        flex-wrap: wrap;
+        padding: 5px;
+      }
+      .func-dict li{
+        display: block;
+        list-style-type: none;
+        padding: 5px;
+      }
+      .func-dict li strong{ min-width: 50px; margin-right: 10px; vertical-align: top }
+      .func-dict li p{ width: 200px; color: #272727; font-size: 0.8rem; }
+      #func-input { display: block; width: 100%; font-size: 2rem; padding: 10px 5px }
+
+      h2{
+        margin-top: 20px
+      }
+
+
+    </style>
   </head>
   <body>
     <canvas id="func-canvas" width="600" height="600"></canvas>
     <input type="text" id="func-input" name="" value="2 * sin(x) + cos( x / 2 * PI )" placeholder="ex: 2 * sin(x) + cos( x / 2 * PI )">
-    <script type="text/javascript">
-      new FuncDisp('func-canvas', 'func-input');
-    </script>
+
+    <script type="text/javascript"> var fd = new FuncDisp('func-canvas', 'func-input'); </script>
+
+    <h2>Featured functions : </h2>
+    <script type="text/javascript">fd.displayDict();</script>
+
+
+
   </body>
 </html>
